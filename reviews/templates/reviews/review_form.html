@@ -1,0 +1,93 @@
+{% load i18n %}
+
+<h1>{% trans 'Add Review' %}</h1>
+<form action="{% url reviews_add content_type_id content_id %}"
+      method="post">
+    
+    {% if request.user.is_anonymous %}
+        <div class="field">
+            <div class="label">
+                {{ form.user_name.label_tag }}:
+            </div>
+
+            {% if form.user_name.errors %}
+                <div class="error">
+                    {{ form.user_name }}
+                    {{ form.user_name.errors }}
+                </div>
+            {% else %}
+                <div>
+                    {{ form.user_name }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            <div class="label">
+                {{ form.user_email.label_tag }}:
+            </div>
+
+            {% if form.user_email.errors %}
+                <div class="error">
+                    {{ form.user_email }}
+                    {{ form.user_email.errors }}
+                </div>
+            {% else %}
+                <div>
+                    {{ form.user_email }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="field">
+        <div class="label">
+            {{ form.comment.label_tag }}:
+        </div>
+
+        {% if form.comment.errors %}
+            <div class="error">
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+        {% else %}
+            <div>
+                {{ form.comment }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="field">
+        <div class="label">
+            {{ form.score.label_tag }}:
+        </div>
+
+        {% if form.score.errors %}
+            <div class="error">
+                {{ form.score }}
+                {{ form.score.errors }}
+            </div>
+        {% else %}
+            <div>
+                {{ form.score }}
+            </div>
+        {% endif %}
+    </div>
+    
+    <input type="hidden"
+           name="content_type_id"
+           value="{{content_type_id}}" />
+
+    <input type="hidden"
+           name="content_id"
+           value="{{content_id}}" />
+    
+    {% if show_preview %}
+        <input type="submit" 
+               value="{% trans 'Preview' %}" />
+    {% else %}               
+        <input type="submit" 
+               value="{% trans 'Send' %}" />        
+    {% endif %}       
+           
+</form>

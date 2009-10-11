@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-21 22:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:24
+msgid "Name"
+msgstr "Name"
+
+#: models.py:25
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: models.py:26
+msgid "Comment"
+msgstr "Kommentar"
+
+#: models.py:31
+msgid "IP address"
+msgstr "IP Adresse"
+
+#: settings.py:5
+msgid "*"
+msgstr "*"
+
+#: settings.py:6
+msgid "**"
+msgstr "**"
+
+#: settings.py:7
+msgid "***"
+msgstr "***"
+
+#: settings.py:8
+msgid "****"
+msgstr "****"
+
+#: settings.py:9
+msgid "*****"
+msgstr "*****"
+
+#: templates/reviews/already_rated.html:2
+msgid "Review"
+msgstr "Bewertung"
+
+#: templates/reviews/already_rated.html:3
+msgid "You have already rated for this product."
+msgstr "Sie habe bereits für dieses Produkt gewertet."
+
+#: templates/reviews/review_form.html:3
+msgid "Add Review"
+msgstr "Bewertung hinzufügen"
+
+#: templates/reviews/review_form.html:86
+#: templates/reviews/review_preview.html:2
+msgid "Preview"
+msgstr "Vorschau"
+
+#: templates/reviews/review_preview.html:46
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: templates/reviews/review_preview.html:50
+msgid "Submit"
+msgstr "Senden"
+
+#: templates/reviews/reviews_for_instance.html:2
+msgid "Reviews"
+msgstr "Bewertungen"
+
+#: templates/reviews/reviews_for_instance.html:23
+msgid "You have already rated"
+msgstr "Sie haben bereits gewertet."
+
+#: templates/reviews/reviews_for_instance.html:29
+msgid "Add review"
+msgstr "Bewertung hinzufügen"
+
+#: templates/reviews/thank_you.html:2
+msgid "Thank you"
+msgstr "Vielen Dank"
+
+#: templates/reviews/thank_you.html:6
+msgid "Close Window"
+msgstr "Fenster schließen"

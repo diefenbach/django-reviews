@@ -1,0 +1,32 @@
+{% load i18n %}
+<h1 class="reviews">{% trans 'Reviews' %}</h1>
+
+{% for review in reviews %}
+    <div>        
+        {{review.get_score_display}}
+    </div>
+    <div>
+        {% if review.email %}
+            <a href="mailto:{{review.email}}">
+                {{review.name}}
+            </a>
+        {% else %}
+            {{review.name}}
+        {% endif %}
+    </div>
+    <div>        
+        {{review.comment|linebreaks}}
+    </div>
+{% endfor %}
+{% if has_rated %}
+    <div>
+        {% trans 'You have already rated' %}
+    </div>
+{% else %}
+    <div>
+        <a href='{% url reviews_add content_type_id content_id %}'
+           target="_blank">
+            {% trans 'Add review' %}
+        </a>
+    </div>
+{% endif %}

@@ -1,0 +1,14 @@
+{% load i18n %}
+<h1>{% trans 'Thank you' %}</h1>
+
+<ul>
+    <li>
+        <a href="{{ object.get_absolute_url }}">{% trans "Go to the reviewed object" %}</a>
+    </li>
+</ul>
+
+<p>
+    <a href="javascript:window.close()">
+        {% trans 'Close Window' %}
+    </a>
+</p>
