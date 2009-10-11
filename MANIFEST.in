@@ -1,0 +1,3 @@
+include README.txt
+recursive-include lfs/templates *
+recursive-include lfs/locale *
