@@ -32,7 +32,7 @@ Changes
 
 * Added documentation
 
-* Added simple example
+* Added a simple example
 
 0.1.0 (2009-10-11)
 ------------------

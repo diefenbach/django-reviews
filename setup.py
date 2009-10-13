@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1.0'
+version = '0.1.1'
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.txt')).read()
@@ -11,6 +11,7 @@ setup(name='django-reviews',
       description='Generic reviews for Django.',
       long_description=README,
       classifiers=[
+          'Development Status :: 4 - Beta',
           'Environment :: Web Environment',
           'Framework :: Django',
           'License :: OSI Approved :: BSD License',
