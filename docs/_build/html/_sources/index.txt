@@ -26,8 +26,8 @@ There are several settings which you can use within settings.py:
 
 REVIEWS_IS_MODERATED
 
-    If True a review is public right after it has been added. Otherwise the admin
-    has to publish the review manually.
+    If True the admin has to publish a review manually. Otherwise a review is
+    public right after it has been added.
 
 REVIEWS_SHOW_PREVIEW
 
