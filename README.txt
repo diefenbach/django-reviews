@@ -18,6 +18,13 @@ Features:
 Changes
 =======
 
+0.2.0 (2009-10-13)
+------------------
+
+* Added ``get_best_rated`` and ``get_best_rated_for model`` methods
+
+* Added tests for utils' methods
+
 0.1.1 (2009-10-13)
 ------------------
 
@@ -29,5 +36,3 @@ Changes
 ------------------
 
 * Initial public release
-
-.. _`LFS`: http://pypi.python.org/pypi/django-lfs
