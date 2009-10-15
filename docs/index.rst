@@ -16,7 +16,9 @@ To install just do:
 
 2. Add reviews to *INSTALLED_APPS*.
 
-3. Add *django.core.context_processors.request* to *TEMPLATE_CONTEXT_PROCESSORS*
+3. Add django-reviews' urls to urls.py
+
+4. Add *django.core.context_processors.request* to *TEMPLATE_CONTEXT_PROCESSORS*
    (If it isn't already).
 
 Settings
