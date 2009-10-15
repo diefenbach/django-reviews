@@ -15,6 +15,11 @@ Features:
 
 * Optional preview
 
+Documentation
+=============
+
+For more documentation please visit: http://packages.python.org/django-reviews/
+
 Changes
 =======
 
