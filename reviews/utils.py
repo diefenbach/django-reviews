@@ -7,7 +7,7 @@ from django.db import connection
 from reviews.models import Review
 
 def get_best_rated():
-    """Returns the best rated instance at all.
+    """Returns the best rated instance for all models.
     """
     cursor = connection.cursor()
     cursor.execute("""SELECT avg(score), content_type_id, content_id
