@@ -41,7 +41,8 @@ class ReviewAddForm(ModelForm):
         return self.cleaned_data
 
 def add_form(request, content_type_id, content_id, template_name="reviews/review_form.html"):
-    """Displays the form to add a review.
+    """Displays the form to add a review. Dispatches the POST request of the 
+    form to save or reedit.
     """
     ctype = ContentType.objects.get_for_id(content_type_id)
     object = ctype.get_object_for_this_type(pk=content_id)
@@ -60,6 +61,8 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
 
     if request.method == "POST":
         form = ReviewAddForm(data=request.POST)
+        # "Attach" the request to the form instance in order to get the user
+        # out of the request within the clean method of the form (see above).
         form.request = request
         if form.is_valid():
             if settings.REVIEWS_SHOW_PREVIEW:
