@@ -1,8 +1,8 @@
 What is it?
 ===========
 
-A review consists of a comment and a rating. Reviews can be attached to arbitrary
-content objects.
+A review consists of a comment and a rating. Reviews can be attached to 
+arbitrary content objects.
 
 Features:
 =========
@@ -25,6 +25,9 @@ Changes
 
 tip
 ---
+
+0.2.1 (2009-10-17)
+------------------
 
 * Added more test
 
