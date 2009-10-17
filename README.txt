@@ -23,15 +23,12 @@ For more documentation please visit: http://packages.python.org/django-reviews/
 Changes
 =======
 
-tip
----
-
 0.2.1 (2009-10-17)
 ------------------
 
-* Added more test
+* Added more tests
 
-* Updated installation section of documentation.
+* Updated installation section of documentation
 
 0.2.0 (2009-10-13)
 ------------------
