@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.util import ErrorList
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
@@ -45,7 +45,11 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
     form to save or reedit.
     """
     ctype = ContentType.objects.get_for_id(content_type_id)
-    object = ctype.get_object_for_this_type(pk=content_id)
+
+    try:
+        object = ctype.get_object_for_this_type(pk=content_id)
+    except ctype.model_class().DoesNotExist:
+        raise Http404
 
     if reviews_utils.has_rated(request, object):
         return HttpResponseRedirect(reverse("reviews_already_rated"))
