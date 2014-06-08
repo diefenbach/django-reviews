@@ -1,7 +1,7 @@
 What is it?
 ===========
 
-A review consists of a comment and a rating. Reviews can be attached to 
+A review consists of a comment and a rating. Reviews can be attached to
 arbitrary content objects.
 
 Features:
@@ -22,6 +22,11 @@ For more documentation please visit: http://packages.python.org/django-reviews/
 
 Changes
 =======
+
+1.0 (2014-06-08)
+----------------
+
+* Adds Django 1.6 support
 
 0.2.1 (2009-10-17)
 ------------------
