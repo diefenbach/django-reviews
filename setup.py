@@ -1,7 +1,8 @@
 from setuptools import setup, find_packages
 import os
+from reviews import __version__
 
-version = '0.2.1'
+version = __version__
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.txt')).read()
@@ -27,6 +28,6 @@ setup(name='django-reviews',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'setuptools',
+          'setuptools',
       ],
       )
