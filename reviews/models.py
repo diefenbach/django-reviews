@@ -28,7 +28,7 @@ class Review(models.Model):
     active = models.BooleanField(_(u"Active"), default=False)
 
     creation_date = models.DateTimeField(_(u"Creation date"), auto_now_add=True)
-    ip_address  = models.IPAddressField(_(u"IP address"), blank=True, null=True)
+    ip_address  = models.GenericIPAddressField(_(u"IP address"), blank=True, null=True)
 
     objects = ActiveManager()
 
