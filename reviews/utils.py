@@ -6,6 +6,7 @@ from django.db import connection
 # review imports
 from reviews.models import Review
 
+
 def get_best_rated():
     """Returns the best rated instance for all models.
     """
@@ -23,6 +24,7 @@ def get_best_rated():
         return content, score
     except (TypeError, ObjectDoesNotExist):
         return None
+
 
 def get_best_rated_for_model(instance):
     """Returns the best rated instance for given model or instance of a model.
@@ -44,11 +46,13 @@ def get_best_rated_for_model(instance):
     except (TypeError, ObjectDoesNotExist):
         return None
 
+
 def get_reviews_for_instance(instance):
     """Returns active reviews for given instance.
     """
     ctype = ContentType.objects.get_for_model(instance)
     return Review.objects.active().filter(content_type=ctype.id, content_id=instance.id)
+
 
 def get_average_for_instance(instance):
     """Returns the average score and the amount of reviews for the given
@@ -67,20 +71,26 @@ def get_average_for_instance(instance):
 
     return cursor.fetchone()
 
+
 def has_rated(request, instance):
     """Returns True if the current user has already rated for the given
     instance.
     """
-    session_key = request.session.session_key
     ctype = ContentType.objects.get_for_model(instance)
 
     try:
         if request.user.is_authenticated():
-            review = Review.objects.get(content_type=ctype.id,
-                content_id=instance.id, user=request.user)
+            Review.objects.get(
+                content_type=ctype.id,
+                content_id=instance.id,
+                user=request.user
+            )
         else:
-            review = Review.objects.get(content_type=ctype.id,
-                content_id=instance.id, session_id=request.session.session_key)
+            Review.objects.get(
+                content_type=ctype.id,
+                content_id=instance.id,
+                session_id=request.session.session_key
+            )
     except ObjectDoesNotExist:
         return False
     else:

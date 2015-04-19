@@ -40,8 +40,9 @@ class ReviewAddForm(ModelForm):
 
         return self.cleaned_data
 
+
 def add_form(request, content_type_id, content_id, template_name="reviews/review_form.html"):
-    """Displays the form to add a review. Dispatches the POST request of the 
+    """Displays the form to add a review. Dispatches the POST request of the
     form to save or reedit.
     """
     ctype = ContentType.objects.get_for_id(content_type_id)
@@ -54,9 +55,9 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
     for i, score in enumerate(SCORE_CHOICES):
         scores.append({
             "title": score[0],
-            "value" : score[0],
-            "z_index" : 10-i,
-            "width" : (i+1) * 25,
+            "value": score[0],
+            "z_index": 10 - i,
+            "width": (i + 1) * 25,
         })
 
     if request.method == "POST":
@@ -73,15 +74,17 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
         form = ReviewAddForm()
 
     return render_to_response(template_name, RequestContext(request, {
-        "content_type_id" : content_type_id,
-        "content_id" : content_id,
-        "object" : object,
-        "form" : form,
-        "scores" : scores,
-        "show_preview" : settings.REVIEWS_SHOW_PREVIEW,
+        "content_type_id": content_type_id,
+        "content_id": content_id,
+        "object": object,
+        "form": form,
+        "scores": scores,
+        "show_preview": settings.REVIEWS_SHOW_PREVIEW,
     }))
 
+
 def reedit(request, template_name="reviews/review_form.html"):
+
     """Displays a form to edit a review. This is used if a reviewer re-edits
     a review after she has previewed it.
     """
@@ -99,21 +102,22 @@ def reedit(request, template_name="reviews/review_form.html"):
     for i, score in enumerate(SCORE_CHOICES):
         scores.append({
             "title": score[0],
-            "value" : score[0],
-            "current" : str(score[0]) == request.POST.get("score"),
-            "z_index" : 10-i,
-            "width" : (i+1) * 25,
+            "value": score[0],
+            "current": str(score[0]) == request.POST.get("score"),
+            "z_index": 10 - i,
+            "width": (i + 1) * 25,
         })
 
     form = ReviewAddForm(data=request.POST)
     return render_to_response(template_name, RequestContext(request, {
-        "content_type_id" : content_type_id,
-        "content_id" : content_id,
-        "form" : form,
-        "scores" : scores,
-        "object" : object,
-        "show_preview" : settings.REVIEWS_SHOW_PREVIEW,
+        "content_type_id": content_type_id,
+        "content_id": content_id,
+        "form": form,
+        "scores": scores,
+        "object": object,
+        "show_preview": settings.REVIEWS_SHOW_PREVIEW,
     }))
+
 
 def reedit_or_save(request):
     """Edits or saves a review dependend on which button has been pressed.
@@ -122,6 +126,7 @@ def reedit_or_save(request):
         return reedit(request)
     else:
         return save(request)
+
 
 def save(request):
     """Saves a review.
@@ -149,6 +154,7 @@ def save(request):
 
         return HttpResponseRedirect(reverse("reviews_thank_you"))
 
+
 def preview(request, template_name="reviews/review_preview.html"):
     """Displays a preview of the review.
     """
@@ -166,24 +172,26 @@ def preview(request, template_name="reviews/review_preview.html"):
         email = request.POST.get("user_email")
 
     return render_to_response(template_name, RequestContext(request, {
-        "score" : float(request.POST.get("score", 0)),
-        "object" : object,
-        "name" : name,
-        "email" : email,
+        "score": float(request.POST.get("score", 0)),
+        "object": object,
+        "name": name,
+        "email": email,
     }))
+
 
 def thank_you(request, template_name="reviews/thank_you.html"):
     """Displays a thank you page.
     """
-    if request.session.has_key("last-rated-object"):
+    if "last-rated-object" in request.session:
         object = request.session.get("last-rated-object")
         del request.session["last-rated-object"]
     else:
         object = None
 
     return render_to_response(template_name, RequestContext(request, {
-        "object" : object,
+        "object": object,
     }))
+
 
 def already_rated(request, template_name="reviews/already_rated.html"):
     """Displays a alreday rated page.

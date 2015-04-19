@@ -9,10 +9,11 @@ from django.utils.translation import ugettext_lazy as _
 from reviews.managers import ActiveManager
 from reviews.settings import SCORE_CHOICES
 
+
 class Review(models.Model):
     """A ``Review`` consists on a comment and a rating.
     """
-    content_type   = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), related_name="content_type_set_for_%(class)s")
+    content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), related_name="content_type_set_for_%(class)s")
     content_id = models.PositiveIntegerField(_(u"Content ID"), blank=True, null=True)
     content = generic.GenericForeignKey(ct_field="content_type", fk_field="content_id")
 
@@ -28,7 +29,7 @@ class Review(models.Model):
     active = models.BooleanField(_(u"Active"), default=False)
 
     creation_date = models.DateTimeField(_(u"Creation date"), auto_now_add=True)
-    ip_address  = models.GenericIPAddressField(_(u"IP address"), blank=True, null=True)
+    ip_address = models.GenericIPAddressField(_(u"IP address"), blank=True, null=True)
 
     objects = ActiveManager()
 
