@@ -23,6 +23,11 @@ For more documentation please visit: http://packages.python.org/django-reviews/
 Changes
 =======
 
+1.1 (2015-04-20)
+----------------
+
+* Adds Django 1.8 support
+
 1.0 (2014-06-08)
 ----------------
 
