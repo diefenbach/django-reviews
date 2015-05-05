@@ -1,5 +1,5 @@
 # django imports
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.db import models
@@ -15,7 +15,7 @@ class Review(models.Model):
     """
     content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), related_name="content_type_set_for_%(class)s")
     content_id = models.PositiveIntegerField(_(u"Content ID"), blank=True, null=True)
-    content = generic.GenericForeignKey(ct_field="content_type", fk_field="content_id")
+    content = GenericForeignKey(ct_field="content_type", fk_field="content_id")
 
     # if the user is authenticated we save the user otherwise the name and the
     # email.
