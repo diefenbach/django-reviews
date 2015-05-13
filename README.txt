@@ -23,6 +23,11 @@ For more documentation please visit: http://packages.python.org/django-reviews/
 Changes
 =======
 
+1.1.2 (2015-05-13)
+------------------
+
+* Resolves more RemovedInDjango19Warnings.
+
 1.1.1 (2015-05-05)
 ------------------
 
