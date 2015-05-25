@@ -1,8 +1,10 @@
 {% load i18n %}
 
 <h1>{% trans 'Add Review' %}</h1>
-<form action="{% url reviews_add content_type_id content_id %}"
+<form action="{% url 'reviews_add' content_type_id content_id %}"
       method="post">
+
+    {% csrf_token %}
     
     {% if request.user.is_anonymous %}
         <div class="field">

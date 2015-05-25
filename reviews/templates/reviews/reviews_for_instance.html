@@ -24,7 +24,7 @@
     </div>
 {% else %}
     <div>
-        <a href='{% url reviews_add content_type_id content_id %}'
+        <a href='{% url 'reviews_add' content_type_id content_id %}'
            target="_blank">
             {% trans 'Add review' %}
         </a>
