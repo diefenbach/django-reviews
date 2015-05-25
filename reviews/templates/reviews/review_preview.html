@@ -1,9 +1,9 @@
 {% load i18n %}
 <h1>{% trans 'Preview' %}</h1>
 
-<form action="{% url reviews_reedit %}"
+<form action="{% url 'reviews_reedit' %}"
       method="post">
-
+    {% csrf_token %}
     <div>
         {{name}}
     </div>
