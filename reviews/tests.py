@@ -14,6 +14,7 @@ from django.test import Client
 import reviews.utils
 from reviews.models import Review
 
+
 # Taken from "http://www.djangosnippets.org/snippets/963/"
 class RequestFactory(Client):
     """
@@ -33,6 +34,7 @@ class RequestFactory(Client):
         environ.update(request)
         return WSGIRequest(environ)
 
+
 def create_request(user=None):
     """
     """
@@ -46,6 +48,7 @@ def create_request(user=None):
 
     return request
 
+
 class ReviewsModelsTestCase(TestCase):
     """
     """
@@ -58,8 +61,7 @@ class ReviewsModelsTestCase(TestCase):
     def test_review_defaults(self):
         """
         """
-        request = create_request()
-        review = Review.objects.create(content = self.page)
+        review = Review.objects.create(content=self.page)
 
         self.assertEqual(review.content, self.page)
         self.assertEqual(review.score, 3.0)
@@ -74,16 +76,15 @@ class ReviewsModelsTestCase(TestCase):
     def test_review_methods(self):
         """
         """
-        request = create_request()
         review = Review.objects.create(
-            content = self.page, 
-            user_name = "Jane Doe",
-            user_email = "jane@doe.com",
+            content=self.page,
+            user_name="Jane Doe",
+            user_email="jane@doe.com",
         )
 
         self.assertEqual(review.name, "Jane Doe")
         self.assertEqual(review.email, "jane@doe.com")
-        
+
         review.user = User(first_name="John", last_name="Doe", email="john@doe.com")
 
         self.assertEqual(review.name, "John Doe")
@@ -92,8 +93,8 @@ class ReviewsModelsTestCase(TestCase):
     def test_review_manager(self):
         """
         """
-        review_1 = Review.objects.create(content = self.page, creation_date="2009-10-16")
-        review_2 = Review.objects.create(content = self.page, creation_date="2009-10-15")
+        review_1 = Review.objects.create(content=self.page, creation_date="2009-10-16")
+        review_2 = Review.objects.create(content=self.page, creation_date="2009-10-15")
 
         # all is providing all reviews
         result = Review.objects.all()
@@ -120,13 +121,14 @@ class ReviewsModelsTestCase(TestCase):
     def test_review_ordering(self):
         """
         """
-        review_1 = Review.objects.create(content = self.page, id=1)
-        review_2 = Review.objects.create(content = self.page, id=2)
-        review_2 = Review.objects.create(content = self.page, id=3)
+        Review.objects.create(content=self.page, id=1)
+        Review.objects.create(content=self.page, id=2)
+        Review.objects.create(content=self.page, id=3)
 
         # Last in first out
         result = [r.id for r in Review.objects.all()]
         self.assertEqual(result, [3, 2, 1])
+
 
 class ReviewsViewsTestCase(TestCase):
     """
@@ -141,7 +143,7 @@ class ReviewsViewsTestCase(TestCase):
         """
         """
         ctype = ContentType.objects.get_for_model(self.page)
-        url = reverse("reviews_add", kwargs = {"content_type_id" : ctype.id, "content_id" : self.page.id})
+        url = reverse("reviews_add", kwargs={"content_type_id": ctype.id, "content_id": self.page.id})
 
         # The result has to ``Preview`` within it
         result = self.client.get(url)
@@ -153,6 +155,7 @@ class ReviewsViewsTestCase(TestCase):
         # The result must not have ``Preview`` within it
         result = self.client.get(url)
         self.assertNotContains(result, "Preview", status_code=200)
+
 
 class PortletsUtilsTestCase(TestCase):
     """
@@ -167,7 +170,7 @@ class PortletsUtilsTestCase(TestCase):
         """
         """
         # Add a review to the page
-        self.review = Review.objects.create(content=self.page, score = 4.0)
+        self.review = Review.objects.create(content=self.page, score=4.0)
 
         # By default the review is not active so there is no average rating
         average = reviews.utils.get_average_for_instance(self.page)
@@ -181,7 +184,7 @@ class PortletsUtilsTestCase(TestCase):
         self.assertEqual(average, (4.0, 1))
 
         # Now we add another one
-        Review.objects.create(content=self.page, score = 2.0, active = True)
+        Review.objects.create(content=self.page, score=2.0, active=True)
 
         average = reviews.utils.get_average_for_instance(self.page)
         self.assertEqual(average, (3.0, 2))
@@ -190,7 +193,7 @@ class PortletsUtilsTestCase(TestCase):
         """
         """
         # Add a review to the page
-        self.review = Review.objects.create(content=self.page, score = 4.0)
+        self.review = Review.objects.create(content=self.page, score=4.0)
 
         # By default the review is not active so there is no average rating
         result = reviews.utils.get_reviews_for_instance(self.page)
@@ -204,7 +207,7 @@ class PortletsUtilsTestCase(TestCase):
         self.assertEqual(len(result), 1)
 
         # Now we add another one
-        Review.objects.create(content=self.page, score = 2.0, active = True)
+        Review.objects.create(content=self.page, score=2.0, active=True)
 
         result = reviews.utils.get_reviews_for_instance(self.page)
         self.assertEqual(len(result), 2)
@@ -220,22 +223,22 @@ class PortletsUtilsTestCase(TestCase):
         self.assertEqual(result, None)
 
         # Start to add reviews
-        Review.objects.create(content=self.page_1, score = 4.0, active=True)
+        Review.objects.create(content=self.page_1, score=4.0, active=True)
 
         self.page_2 = FlatPage.objects.create(url="/test-2/", title="Test 2")
-        Review.objects.create(content=self.page_2, score = 3.0, active=True)
+        Review.objects.create(content=self.page_2, score=3.0, active=True)
 
         # At first page 1 is best
         result = reviews.utils.get_best_rated_for_model(self.page_1)
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2, but page 1 is still the best
-        Review.objects.create(content=self.page_2, score = 4.0, active=True)
+        Review.objects.create(content=self.page_2, score=4.0, active=True)
         result = reviews.utils.get_best_rated_for_model(self.page_1)
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2. Now page 2 is the best rated
-        Review.objects.create(content=self.page_2, score = 6.0, active=True)
+        Review.objects.create(content=self.page_2, score=6.0, active=True)
         result = reviews.utils.get_best_rated_for_model(self.page_1)
         self.assertEqual(result[0], self.page_2)
 
@@ -250,22 +253,22 @@ class PortletsUtilsTestCase(TestCase):
         self.assertEqual(result, None)
 
         # Start to add reviews
-        Review.objects.create(content=self.page_1, score = 4.0, active=True)
+        Review.objects.create(content=self.page_1, score=4.0, active=True)
 
         self.page_2 = FlatPage.objects.create(url="/test-2/", title="Test 2")
-        Review.objects.create(content=self.page_2, score = 3.0, active=True)
+        Review.objects.create(content=self.page_2, score=3.0, active=True)
 
         # At first page 1 is best
         result = reviews.utils.get_best_rated()
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2, but page 1 is still the best
-        Review.objects.create(content=self.page_2, score = 4.0, active=True)
+        Review.objects.create(content=self.page_2, score=4.0, active=True)
         result = reviews.utils.get_best_rated()
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2. Now page 2 is the best rated
-        Review.objects.create(content=self.page_2, score = 6.0, active=True)
+        Review.objects.create(content=self.page_2, score=6.0, active=True)
         result = reviews.utils.get_best_rated()
         self.assertEqual(result[0], self.page_2)
 
@@ -284,11 +287,11 @@ class PortletsUtilsTestCase(TestCase):
         self.assertEqual(reviews.utils.has_rated(request, self.page_2), False)
 
         # Rate for page 1
-        Review.objects.create(content=self.page_1, score = 6.0, active=True, session_id=request.session.session_key)
+        Review.objects.create(content=self.page_1, score=6.0, active=True, session_id=request.session.session_key)
         self.assertEqual(reviews.utils.has_rated(request, self.page_1), True)
         self.assertEqual(reviews.utils.has_rated(request, self.page_2), False)
 
         # Rate for page 2
-        Review.objects.create(content=self.page_2, score = 6.0, active=True, session_id=request.session.session_key)
+        Review.objects.create(content=self.page_2, score=6.0, active=True, session_id=request.session.session_key)
         self.assertEqual(reviews.utils.has_rated(request, self.page_1), True)
         self.assertEqual(reviews.utils.has_rated(request, self.page_2), True)
