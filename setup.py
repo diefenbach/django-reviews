@@ -1,5 +1,5 @@
-from setuptools import setup, find_packages
 import os
+from setuptools import setup, find_packages
 from reviews import __version__
 
 version = __version__
@@ -12,7 +12,7 @@ setup(name='django-reviews',
       description='Generic reviews for Django.',
       long_description=README,
       classifiers=[
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Environment :: Web Environment',
           'Framework :: Django',
           'License :: OSI Approved :: BSD License',
