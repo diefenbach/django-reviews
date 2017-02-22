@@ -9,18 +9,18 @@
     </div>
     <div>
         {{email}}
-    </div>      
+    </div>
     <div>
         {{request.POST.comment|linebreaks}}
     </div>
     <div>
         {{request.POST.score}}
     </div>
-    
+
     <input type="hidden"
            name="user_name"
            value="{{request.POST.user_name}}" />
-           
+
     <input type="hidden"
            name="user_email"
            value="{{request.POST.user_email}}" />
@@ -44,7 +44,7 @@
     <input type="submit"
            name="edit"
            value="{% trans 'Edit' %}" />
-    
+
     <input type="submit"
            name="save"
            value="{% trans 'Submit' %}" />
