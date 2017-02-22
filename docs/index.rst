@@ -7,13 +7,13 @@ Installation
 
 To install just do:
 
-1. ``python setup.py install`` or ``easy_install django-reviews``
+1. ``python setup.py install`` or ``pip install django-reviews``
 
-2. Add reviews to *INSTALLED_APPS*.
+2. Add reviews to ``INSTALLED_APPS``.
 
 3. Add django-reviews' urls to urls.py
 
-4. Add *django.core.context_processors.request* to *TEMPLATE_CONTEXT_PROCESSORS*
+4. Add *django.template.context_processors.request* to ``TEMPLATES`` settings.
    (If it isn't already).
 
 Settings
@@ -55,7 +55,7 @@ Add the provided tags to your templates::
 
             <hr>
             {% reviews_for_instance flatpage %}
-        
+
         </body>
     </html>
 
@@ -63,10 +63,10 @@ Add the provided tags to your templates::
 Example
 =======
 
-There is a simple example provided with this product. 
+There is a simple example provided with this product.
 
 To install it just make sure *django.contrib.flatpages* has been installed (a
-flatpage will serve as our test content) and add reviews.example to 
+flatpage will serve as our test content) and add reviews.example to
 *INSTALLED_APPS*.
 
 Now add a flatpage and browse to it. You should be able to add reviews to the
