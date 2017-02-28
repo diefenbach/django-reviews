@@ -3,7 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 from django.forms.utils import ErrorList
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 
