@@ -19,6 +19,9 @@ For more documentation please visit: http://packages.python.org/django-reviews/
 
 Changes
 =======
+1.2.1 (2017-03-03)
+------------------
+* Handle review requests which does not exist (Maciej Wiśniowski)
 
 1.2 (2017-02-19)
 ----------------
