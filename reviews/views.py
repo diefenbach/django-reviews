@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.forms import ModelForm
 from django.forms.utils import ErrorList
 from django.http import HttpResponseRedirect
