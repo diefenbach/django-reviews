@@ -79,7 +79,7 @@ def has_rated(request, instance):
     ctype = ContentType.objects.get_for_model(instance)
 
     try:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             Review.objects.get(
                 content_type=ctype.id,
                 content_id=instance.id,

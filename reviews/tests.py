@@ -69,7 +69,7 @@ class ReviewsModelsTestCase(TestCase):
         self.assertEqual(review.active, False)
         self.assertEqual(review.ip_address, None)
         self.assertEqual(review.user, None)
-        self.assertEqual(review.session_id, None)
+        self.assertEqual(review.session_id, "")
         self.assertEqual(review.user_name, "")
         self.assertEqual(review.user_email, "")
 

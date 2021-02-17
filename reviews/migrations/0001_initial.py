@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('active', models.BooleanField(default=False, verbose_name='Active')),
                 ('creation_date', models.DateTimeField(auto_now_add=True, verbose_name='Creation date')),
                 ('ip_address', models.GenericIPAddressField(null=True, verbose_name='IP address', blank=True)),
-                ('content_type', models.ForeignKey(related_name='content_type_set_for_review', verbose_name='Content type', to='contenttypes.ContentType')),
+                ('content_type', models.ForeignKey(related_name='content_type_set_for_review', verbose_name='Content type', to='contenttypes.ContentType', on_delete=models.CASCADE)),
                 ('user', models.ForeignKey(related_name='review_comments', verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)),
             ],
             options={
