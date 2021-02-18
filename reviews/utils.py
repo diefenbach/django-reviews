@@ -11,18 +11,17 @@ from reviews.models import Review
 def get_best_rated():
     """Returns the best rated instance for all models.
     """
-    cursor = connection.cursor()
-    cursor.execute("""SELECT avg(score), content_type_id, content_id
-                      FROM reviews_review
-                      WHERE active=%s
-                      GROUP BY content_id
-                      ORDER BY avg(score) DESC""", [True])
+    result = Review.objects \
+        .filter(active=True) \
+        .values('content_type_id', 'content_id') \
+        .annotate(Avg('score')) \
+        .order_by('-score__avg') \
+        .first()
 
     try:
-        score, content_type_id, content_id = cursor.fetchone()
-        ctype = ContentType.objects.get_for_id(content_type_id)
-        content = ctype.model_class().objects.get(pk=content_id)
-        return content, score
+        ctype = ContentType.objects.get_for_id(result['content_type_id'])
+        content = ctype.model_class().objects.get(pk=result['content_id'])
+        return content, result['score__avg']
     except (TypeError, ObjectDoesNotExist):
         return None
 
@@ -32,18 +31,16 @@ def get_best_rated_for_model(instance):
     """
     ctype = ContentType.objects.get_for_model(instance)
 
-    cursor = connection.cursor()
-    cursor.execute("""SELECT avg(score), content_id
-                      FROM reviews_review
-                      WHERE content_type_id=%s
-                      AND active=%s
-                      GROUP BY content_id
-                      ORDER BY avg(score) DESC""", [ctype.id, True])
+    result = Review.objects \
+        .filter(content_type=ctype.id, active=True) \
+        .values('content_id') \
+        .annotate(Avg('score')) \
+        .order_by('-score__avg') \
+        .first()
 
     try:
-        score, content_id = cursor.fetchone()
-        content = ctype.model_class().objects.get(pk=content_id)
-        return content, score
+        content = ctype.model_class().objects.get(pk=result['content_id'])
+        return content, result['score__avg']
     except (TypeError, ObjectDoesNotExist):
         return None
 
