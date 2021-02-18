@@ -11,21 +11,25 @@ from reviews.settings import SCORE_CHOICES
 
 
 class Review(models.Model):
-    """A ``Review`` consists on a comment and a rating.
+    """A `review` consists of a comment and a rating.
     """
-    content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), related_name="content_type_set_for_%(class)s")
+    content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), 
+                                     related_name="content_type_set_for_%(class)s", on_delete=models.CASCADE)
     content_id = models.PositiveIntegerField(_(u"Content ID"), blank=True, null=True)
     content = GenericForeignKey(ct_field="content_type", fk_field="content_id")
 
     # if the user is authenticated we save the user otherwise the name and the
     # email.
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(u"User"), blank=True, null=True, related_name="%(class)s_comments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(u"User"), blank=True, null=True, related_name="%(class)s_comments", 
+                             on_delete=models.SET_NULL)
     session_id = models.CharField(_(u"Session ID"), blank=True, max_length=50)
 
+    # ... otherwise the name and the email
     user_name = models.CharField(_(u"Name"), max_length=50, blank=True)
     user_email = models.EmailField(_(u"E-mail"), blank=True)
+
     comment = models.TextField(_(u"Comment"), blank=True)
-    score = models.FloatField(_(u"Score"), choices=SCORE_CHOICES, default=3.0)
+    score = models.FloatField(_(u"Score"), choices=SCORE_CHOICES, default=0.0)
     active = models.BooleanField(_(u"Active"), default=False)
 
     creation_date = models.DateTimeField(_(u"Creation date"), auto_now_add=True)
@@ -36,7 +40,7 @@ class Review(models.Model):
     class Meta:
         ordering = ("-creation_date", )
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (%s)" % (self.name, self.score)
 
     @property

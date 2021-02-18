@@ -1,13 +1,14 @@
 {% load i18n %}
 
 <h1>{% trans 'Add Review' %}</h1>
-<form action="{% url reviews_add content_type_id content_id %}"
+<form action="{% url 'reviews_add' content_type_id content_id %}"
       method="post">
-    
+    {% csrf_token %}
+
     {% if request.user.is_anonymous %}
         <div class="field">
             <div class="label">
-                {{ form.user_name.label_tag }}:
+                {{ form.user_name.label_tag }}
             </div>
 
             {% if form.user_name.errors %}
@@ -24,7 +25,7 @@
 
         <div class="field">
             <div class="label">
-                {{ form.user_email.label_tag }}:
+                {{ form.user_email.label_tag }}
             </div>
 
             {% if form.user_email.errors %}
@@ -42,7 +43,7 @@
 
     <div class="field">
         <div class="label">
-            {{ form.comment.label_tag }}:
+            {{ form.comment.label_tag }}
         </div>
 
         {% if form.comment.errors %}
@@ -59,7 +60,7 @@
 
     <div class="field">
         <div class="label">
-            {{ form.score.label_tag }}:
+            {{ form.score.label_tag }}
         </div>
 
         {% if form.score.errors %}
@@ -73,21 +74,21 @@
             </div>
         {% endif %}
     </div>
-    
+
     <input type="hidden"
            name="content_type_id"
-           value="{{content_type_id}}" />
+           value="{{ content_type_id }}" />
 
     <input type="hidden"
            name="content_id"
-           value="{{content_id}}" />
-    
+           value="{{ content_id }}" />
+
     {% if show_preview %}
-        <input type="submit" 
+        <input type="submit"
                value="{% trans 'Preview' %}" />
-    {% else %}               
-        <input type="submit" 
-               value="{% trans 'Send' %}" />        
-    {% endif %}       
-           
+    {% else %}
+        <input type="submit"
+               value="{% trans 'Send' %}" />
+    {% endif %}
+
 </form>
