@@ -2,6 +2,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from django.db.models import Count, Avg
 
 # review imports
 from reviews.models import Review
@@ -15,7 +16,7 @@ def get_best_rated():
                       FROM reviews_review
                       WHERE active=%s
                       GROUP BY content_id
-                      ORDER BY score DESC""", [True])
+                      ORDER BY avg(score) DESC""", [True])
 
     try:
         score, content_type_id, content_id = cursor.fetchone()
@@ -37,7 +38,7 @@ def get_best_rated_for_model(instance):
                       WHERE content_type_id=%s
                       AND active=%s
                       GROUP BY content_id
-                      ORDER BY score DESC""", [ctype.id, True])
+                      ORDER BY avg(score) DESC""", [ctype.id, True])
 
     try:
         score, content_id = cursor.fetchone()
@@ -60,16 +61,11 @@ def get_average_for_instance(instance):
 
     Returns (average, amount)
     """
-    # TODO: Check Django 1.1's aggregation
-    ctype = ContentType.objects.get_for_model(instance)
-    cursor = connection.cursor()
-    cursor.execute("""SELECT avg(score), count(*)
-                      FROM reviews_review
-                      WHERE content_type_id=%s
-                      AND content_id=%s
-                      AND active=%s""", [ctype.id, instance.id, True])
+    content_type = ContentType.objects.get_for_model(instance)
+    query = Review.objects.filter(content_type=content_type.id, content_id=instance.id, active=True).aggregate(
+        Avg('score'), Count('id'))
 
-    return cursor.fetchone()
+    return query.get('score__avg'), query.get('id__count')
 
 
 def has_rated(request, instance):

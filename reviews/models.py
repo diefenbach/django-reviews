@@ -26,7 +26,7 @@ class Review(models.Model):
     user_email = models.EmailField(_(u"E-mail"), blank=True)
 
     comment = models.TextField(_(u"Comment"), blank=True)
-    score = models.FloatField(_(u"Score"), choices=SCORE_CHOICES, default=1.0)
+    score = models.FloatField(_(u"Score"), choices=SCORE_CHOICES, default=0.0)
     active = models.BooleanField(_(u"Active"), default=False)
 
     creation_date = models.DateTimeField(_(u"Creation date"), auto_now_add=True)

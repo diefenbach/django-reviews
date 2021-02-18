@@ -7,46 +7,11 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.sessions.backends.file import SessionStore
 from django.core.handlers.wsgi import WSGIRequest
 from django.urls import reverse
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, RequestFactory
 
 # reviews imports
 import reviews.utils
 from reviews.models import Review
-
-
-# Taken from "http://www.djangosnippets.org/snippets/963/"
-class RequestFactory(Client):
-    """
-    """
-    def request(self, **request):
-        environ = {
-            'HTTP_COOKIE': self.cookies,
-            'PATH_INFO': '/',
-            'QUERY_STRING': '',
-            'REQUEST_METHOD': 'GET',
-            'SCRIPT_NAME': '',
-            'SERVER_NAME': 'testserver',
-            'SERVER_PORT': 80,
-            'SERVER_PROTOCOL': 'HTTP/1.1',
-        }
-        environ.update(self.defaults)
-        environ.update(request)
-        return WSGIRequest(environ)
-
-
-def create_request(user=None):
-    """
-    """
-    rf = RequestFactory()
-    request = rf.get('/')
-    request.session = SessionStore()
-    if user:
-        request.user = user
-    else:
-        request.user = User(first_name="John Doe", email="john@doe.com")
-
-    return request
 
 
 class ReviewsModelsTestCase(TestCase):
@@ -64,7 +29,7 @@ class ReviewsModelsTestCase(TestCase):
         review = Review.objects.create(content=self.page)
 
         self.assertEqual(review.content, self.page)
-        self.assertEqual(review.score, 3.0)
+        self.assertEqual(review.score, 0.0)
         self.assertEqual(review.comment, "")
         self.assertEqual(review.active, False)
         self.assertEqual(review.ip_address, None)
@@ -142,22 +107,24 @@ class ReviewsViewsTestCase(TestCase):
     def test_add_form(self):
         """
         """
+        settings.REVIEWS_SHOW_PREVIEW = True
+
         ctype = ContentType.objects.get_for_model(self.page)
         url = reverse("reviews_add", kwargs={"content_type_id": ctype.id, "content_id": self.page.id})
 
-        # The result has to ``Preview`` within it
+        # The result has to `Preview` within it
         result = self.client.get(url)
         self.assertContains(result, "Preview", status_code=200)
 
         # switching ot no preview
         settings.REVIEWS_SHOW_PREVIEW = False
 
-        # The result must not have ``Preview`` within it
+        # The result must not have `Preview` within it
         result = self.client.get(url)
         self.assertNotContains(result, "Preview", status_code=200)
 
 
-class PortletsUtilsTestCase(TestCase):
+class UtilsTestCase(TestCase):
     """
     """
     def setUp(self):
@@ -229,17 +196,17 @@ class PortletsUtilsTestCase(TestCase):
         Review.objects.create(content=self.page_2, score=3.0, active=True)
 
         # At first page 1 is best
-        result = reviews.utils.get_best_rated_for_model(self.page_1)
+        result = reviews.utils.get_best_rated_for_model(FlatPage)
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2, but page 1 is still the best
         Review.objects.create(content=self.page_2, score=4.0, active=True)
-        result = reviews.utils.get_best_rated_for_model(self.page_1)
+        result = reviews.utils.get_best_rated_for_model(FlatPage)
         self.assertEqual(result[0], self.page_1)
 
         # Adding one more review to page 2. Now page 2 is the best rated
         Review.objects.create(content=self.page_2, score=6.0, active=True)
-        result = reviews.utils.get_best_rated_for_model(self.page_1)
+        result = reviews.utils.get_best_rated_for_model(FlatPage)
         self.assertEqual(result[0], self.page_2)
 
     def test_get_best_rated(self):
@@ -275,8 +242,11 @@ class PortletsUtilsTestCase(TestCase):
     def test_has_rated(self):
         """
         """
-        request = create_request()
+        self.factory = RequestFactory()
+        request = self.factory.get('/')
         request.user = AnonymousUser()
+        request.session = SessionStore()
+        request.session.create()
 
         # Create some dummy pages
         self.page_1 = FlatPage.objects.create(url="/test-1/", title="Test 1")
