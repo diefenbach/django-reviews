@@ -1,7 +1,7 @@
 # django imports
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,12 +13,15 @@ from reviews.settings import SCORE_CHOICES
 class Review(models.Model):
     """A `review` consists of a comment and a rating.
     """
-    content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), related_name="content_type_set_for_%(class)s", on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, verbose_name=_(u"Content type"), 
+                                     related_name="content_type_set_for_%(class)s", on_delete=models.CASCADE)
     content_id = models.PositiveIntegerField(_(u"Content ID"), blank=True, null=True)
     content = GenericForeignKey(ct_field="content_type", fk_field="content_id")
 
-    # If the user is authenticated, we store the user, ...
-    user = models.ForeignKey(User, verbose_name=_(u"User"), blank=True, null=True, related_name="%(class)s_comments", on_delete=models.SET_NULL)
+    # if the user is authenticated we save the user otherwise the name and the
+    # email.
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(u"User"), blank=True, null=True, related_name="%(class)s_comments", 
+                             on_delete=models.SET_NULL)
     session_id = models.CharField(_(u"Session ID"), blank=True, max_length=50)
 
     # ... otherwise the name and the email
