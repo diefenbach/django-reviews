@@ -138,6 +138,8 @@ def save(request):
         new_review = form.save(commit=False)
         new_review.content_type_id = request.POST.get("content_type_id")
         new_review.content_id = request.POST.get("content_id")
+        if not request.session.session_key:
+            request.session.save()
         new_review.session_id = request.session.session_key
         new_review.ip_address = request.META.get("REMOTE_ADDR")
         if request.user.is_authenticated():
