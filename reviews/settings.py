@@ -1,10 +1,10 @@
 # django imports
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 SCORE_CHOICES = (
-    (1.0, _(u"*")),
-    (2.0, _(u"**")),
-    (3.0, _(u"***")),
-    (4.0, _(u"****")),
-    (5.0, _(u"*****")),
+    (1.0, _("*")),
+    (2.0, _("**")),
+    (3.0, _("***")),
+    (4.0, _("****")),
+    (5.0, _("*****")),
 )

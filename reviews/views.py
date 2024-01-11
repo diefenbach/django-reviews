@@ -6,7 +6,7 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from reviews import signals as reviews_signals
 from reviews import utils as reviews_utils
 from reviews.models import Review
@@ -14,18 +14,17 @@ from reviews.settings import SCORE_CHOICES
 
 
 class ReviewAddForm(ModelForm):
-    """Form to add a review.
-    """
+    """Form to add a review."""
+
     class Meta:
         model = Review
         fields = ("user_name", "user_email", "comment", "score")
 
     def clean(self):
-        """
-        """
+        """ """
         # For an anonymous user the name is required. Please note that the
         # request has to be passed explicitly to the form object (see add_form)
-        msg = _(u"This field is required")
+        msg = _("This field is required")
 
         if self.request.user.is_anonymous:
             if settings.REVIEWS_IS_NAME_REQUIRED:
@@ -39,8 +38,7 @@ class ReviewAddForm(ModelForm):
 
 
 def add_form(request, content_type_id, content_id, template_name="reviews/review_form.html"):
-    """Displays the form to add a review. Dispatches the POST request of the form to save or reedit.
-    """
+    """Displays the form to add a review. Dispatches the POST request of the form to save or reedit."""
     ctype = ContentType.objects.get_for_id(content_type_id)
     try:
         obj = ctype.get_object_for_this_type(pk=content_id)
@@ -52,12 +50,14 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
 
     scores = []
     for i, score in enumerate(SCORE_CHOICES):
-        scores.append({
-            "title": score[0],
-            "value": score[0],
-            "z_index": 10 - i,
-            "width": (i + 1) * 25,
-        })
+        scores.append(
+            {
+                "title": score[0],
+                "value": score[0],
+                "z_index": 10 - i,
+                "width": (i + 1) * 25,
+            }
+        )
 
     if request.method == "POST":
         form = ReviewAddForm(data=request.POST)
@@ -72,18 +72,21 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
     else:
         form = ReviewAddForm()
 
-    return render(request, template_name, {
-        "content_type_id": content_type_id,
-        "content_id": content_id,
-        "object": object,
-        "form": form,
-        "scores": scores,
-        "show_preview": settings.REVIEWS_SHOW_PREVIEW,
-    })
+    return render(
+        request,
+        template_name,
+        {
+            "content_type_id": content_type_id,
+            "content_id": content_id,
+            "object": object,
+            "form": form,
+            "scores": scores,
+            "show_preview": settings.REVIEWS_SHOW_PREVIEW,
+        },
+    )
 
 
 def reedit(request, template_name="reviews/review_form.html"):
-
     """Displays a form to edit a review. This is used if a reviewer re-edits
     a review after she has previewed it.
     """
@@ -99,28 +102,33 @@ def reedit(request, template_name="reviews/review_form.html"):
 
     scores = []
     for i, score in enumerate(SCORE_CHOICES):
-        scores.append({
-            "title": score[0],
-            "value": score[0],
-            "current": str(score[0]) == request.POST.get("score"),
-            "z_index": 10 - i,
-            "width": (i + 1) * 25,
-        })
+        scores.append(
+            {
+                "title": score[0],
+                "value": score[0],
+                "current": str(score[0]) == request.POST.get("score"),
+                "z_index": 10 - i,
+                "width": (i + 1) * 25,
+            }
+        )
 
     form = ReviewAddForm(data=request.POST)
-    return render(request, template_name, {
-        "content_type_id": content_type_id,
-        "content_id": content_id,
-        "form": form,
-        "scores": scores,
-        "object": object,
-        "show_preview": settings.REVIEWS_SHOW_PREVIEW,
-    })
+    return render(
+        request,
+        template_name,
+        {
+            "content_type_id": content_type_id,
+            "content_id": content_id,
+            "form": form,
+            "scores": scores,
+            "object": object,
+            "show_preview": settings.REVIEWS_SHOW_PREVIEW,
+        },
+    )
 
 
 def reedit_or_save(request):
-    """Edits or saves a review dependent on which button has been pressed.
-    """
+    """Edits or saves a review dependent on which button has been pressed."""
     if request.POST.get("edit"):
         return reedit(request)
     else:
@@ -128,8 +136,7 @@ def reedit_or_save(request):
 
 
 def save(request):
-    """Saves a review.
-    """
+    """Saves a review."""
     form = ReviewAddForm(data=request.POST)
     form.request = request
     if form.is_valid():
@@ -156,8 +163,7 @@ def save(request):
 
 
 def preview(request, template_name="reviews/review_preview.html"):
-    """Displays a preview of the review.
-    """
+    """Displays a preview of the review."""
     content_type_id = request.POST.get("content_type_id")
     content_id = request.POST.get("content_id")
 
@@ -171,17 +177,20 @@ def preview(request, template_name="reviews/review_preview.html"):
         name = request.POST.get("user_name")
         email = request.POST.get("user_email")
 
-    return render(request, template_name, {
-        "score": float(request.POST.get("score", 0)),
-        "object": obj,
-        "name": name,
-        "email": email,
-    })
+    return render(
+        request,
+        template_name,
+        {
+            "score": float(request.POST.get("score", 0)),
+            "object": obj,
+            "name": name,
+            "email": email,
+        },
+    )
 
 
 def thank_you(request, template_name="reviews/thank_you.html"):
-    """Displays a thank you page.
-    """
+    """Displays a thank you page."""
     if "last-rated-object" in request.session:
         content_type_id, content_id = request.session.get("last-rated-object")
         obj_type = ContentType.objects.get_for_id(content_type_id)
@@ -190,12 +199,15 @@ def thank_you(request, template_name="reviews/thank_you.html"):
     else:
         obj = None
 
-    return render(request, template_name, {
-        "object": obj,
-    })
+    return render(
+        request,
+        template_name,
+        {
+            "object": obj,
+        },
+    )
 
 
 def already_rated(request, template_name="reviews/already_rated.html"):
-    """Displays a already rated page.
-    """
+    """Displays a already rated page."""
     return render(request, template_name)

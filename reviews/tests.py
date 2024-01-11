@@ -15,17 +15,15 @@ from reviews.models import Review
 
 
 class ReviewsModelsTestCase(TestCase):
-    """
-    """
+    """ """
+
     def setUp(self):
-        """
-        """
+        """ """
         # Create a dummy page to test
         self.page = FlatPage.objects.create(url="/test/", title="Test")
 
     def test_review_defaults(self):
-        """
-        """
+        """ """
         review = Review.objects.create(content=self.page)
 
         self.assertEqual(review.content, self.page)
@@ -39,8 +37,7 @@ class ReviewsModelsTestCase(TestCase):
         self.assertEqual(review.user_email, "")
 
     def test_review_methods(self):
-        """
-        """
+        """ """
         review = Review.objects.create(
             content=self.page,
             user_name="Jane Doe",
@@ -56,8 +53,7 @@ class ReviewsModelsTestCase(TestCase):
         self.assertEqual(review.email, "john@doe.com")
 
     def test_review_manager(self):
-        """
-        """
+        """ """
         review_1 = Review.objects.create(content=self.page, creation_date="2009-10-16")
         review_2 = Review.objects.create(content=self.page, creation_date="2009-10-15")
 
@@ -84,8 +80,7 @@ class ReviewsModelsTestCase(TestCase):
         self.assertEqual(len(result), 2)
 
     def test_review_ordering(self):
-        """
-        """
+        """ """
         Review.objects.create(content=self.page, id=1)
         Review.objects.create(content=self.page, id=2)
         Review.objects.create(content=self.page, id=3)
@@ -96,17 +91,15 @@ class ReviewsModelsTestCase(TestCase):
 
 
 class ReviewsViewsTestCase(TestCase):
-    """
-    """
+    """ """
+
     def setUp(self):
-        """
-        """
+        """ """
         # Create a dummy page to test
         self.page = FlatPage.objects.create(url="/test/", title="Test")
 
     def test_add_form(self):
-        """
-        """
+        """ """
         settings.REVIEWS_SHOW_PREVIEW = True
 
         ctype = ContentType.objects.get_for_model(self.page)
@@ -125,17 +118,15 @@ class ReviewsViewsTestCase(TestCase):
 
 
 class UtilsTestCase(TestCase):
-    """
-    """
+    """ """
+
     def setUp(self):
-        """
-        """
+        """ """
         # Create a dummy page to test
         self.page = FlatPage.objects.create(url="/test/", title="Test")
 
     def test_get_average_for_instance(self):
-        """
-        """
+        """ """
         # Add a review to the page
         self.review = Review.objects.create(content=self.page, score=4.0)
 
@@ -157,8 +148,7 @@ class UtilsTestCase(TestCase):
         self.assertEqual(average, (3.0, 2))
 
     def test_get_reviews_for_instance(self):
-        """
-        """
+        """ """
         # Add a review to the page
         self.review = Review.objects.create(content=self.page, score=4.0)
 
@@ -180,8 +170,7 @@ class UtilsTestCase(TestCase):
         self.assertEqual(len(result), 2)
 
     def test_get_best_rated_for_model(self):
-        """
-        """
+        """ """
         # Create some dummy pages
         self.page_1 = FlatPage.objects.create(url="/test-1/", title="Test 1")
 
@@ -210,8 +199,7 @@ class UtilsTestCase(TestCase):
         self.assertEqual(result[0], self.page_2)
 
     def test_get_best_rated(self):
-        """
-        """
+        """ """
         # Create some dummy pages
         self.page_1 = FlatPage.objects.create(url="/test-1/", title="Test 1")
 
@@ -240,10 +228,9 @@ class UtilsTestCase(TestCase):
         self.assertEqual(result[0], self.page_2)
 
     def test_has_rated(self):
-        """
-        """
+        """ """
         self.factory = RequestFactory()
-        request = self.factory.get('/')
+        request = self.factory.get("/")
         request.user = AnonymousUser()
         request.session = SessionStore()
         request.session.create()
