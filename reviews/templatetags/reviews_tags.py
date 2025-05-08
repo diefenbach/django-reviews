@@ -33,3 +33,15 @@ def average_for_instance(context, instance):
         "average": average,
         "amount": amount,
     }
+
+
+@register.filter(name="mask_string")
+def mask_string(str):
+    if str == "":
+        return str
+    elif len(str) > 4:
+        str = str[0:-4]
+        return str + "----"
+    else:
+        str = str[0:1]
+        return str + "---"
