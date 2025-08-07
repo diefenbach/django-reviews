@@ -78,7 +78,7 @@ def add_form(request, content_type_id, content_id, template_name="reviews/review
         {
             "content_type_id": content_type_id,
             "content_id": content_id,
-            "object": object,
+            "object": obj,
             "form": form,
             "scores": scores,
             "show_preview": settings.REVIEWS_SHOW_PREVIEW,
