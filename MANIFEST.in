@@ -1,3 +1,3 @@
-include README.txt
-recursive-include lfs/templates *
-recursive-include lfs/locale *
+include README.txt LICENSE.txt
+graft reviews
+global-exclude __pycache__ *.py[co] .DS_Store
